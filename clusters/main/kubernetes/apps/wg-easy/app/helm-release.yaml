@@ -81,9 +81,8 @@ spec:
                 WG_HOST: "${DDNS_URL}"
                 WG_DEFAULT_DNS: "${BLOCKY_IP}"
                 WG_PORT: "1194"
-                WG_DEVICE: "eth0"
-                POST_UP: 'iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; iptables -t nat -A POSTROUTING -o %i -j MASQUERADE; iptables -A INPUT -i eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT; iptables -A INPUT -i %i -m state --state RELATED,ESTABLISHED -j ACCEPT; iptables -A FORWARD -j ACCEPT'
-                POST_DOWN: 'iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; iptables -t nat -D POSTROUTING -o %i -j MASQUERADE; iptables -A INPUT -i eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT; iptables -D INPUT -i %i -m state --state RELATED,ESTABLISHED -j ACCEPT; iptables -D FORWARD -j ACCEPT'
+                #POST_UP: 'iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; iptables -t nat -A POSTROUTING -o %i -j MASQUERADE; iptables -A INPUT -i eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT; iptables -A INPUT -i %i -m state --state RELATED,ESTABLISHED -j ACCEPT; iptables -A FORWARD -j ACCEPT'
+                #POST_DOWN: 'iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; iptables -t nat -D POSTROUTING -o %i -j MASQUERADE; iptables -A INPUT -i eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT; iptables -D INPUT -i %i -m state --state RELATED,ESTABLISHED -j ACCEPT; iptables -D FORWARD -j ACCEPT'
                 # PASSWORD_HASH uses bcrypt. You can create a hash at https://bcrypt.online/
                 PASSWORD_HASH: "$2y$10$LEKfuEubLBZi5tGNJSTv0.KfyOwZeYzjM65yZeklo.VM/eE44yrAK"
                 WG_ALLOWED_IPS: "0.0.0.0/0"
