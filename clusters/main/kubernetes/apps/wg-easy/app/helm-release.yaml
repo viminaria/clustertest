@@ -34,24 +34,24 @@ spec:
           add:
             - NET_ADMIN
             - NET_RAW
-    ingress:
-      main:
-        enabled: true
-        hosts:
-          - host: "wg.${DOMAIN_0}"
-            paths:
-              - overrideService:
-                  name: "main"
-                  port: 51821
-                path: "/"
-                pathType: "Prefix"
-        integrations:
-          certManager:
-            certificateIssuer: "domain-0-le-prod"
-            enabled: true
-        tls:
-          - hosts:
-              - "wg.${DOMAIN_0}"
+    # ingress:
+    #   main:
+    #     enabled: true
+    #     hosts:
+    #       - host: "wg.${DOMAIN_0}"
+    #         paths:
+    #           - overrideService:
+    #               name: "main"
+    #               port: 51821
+    #             path: "/"
+    #             pathType: "Prefix"
+    #     integrations:
+    #       certManager:
+    #         certificateIssuer: "domain-0-le-prod"
+    #         enabled: true
+    #     tls:
+    #       - hosts:
+    #           - "wg.${DOMAIN_0}"
     service:
       vpn:
         type: LoadBalancer
