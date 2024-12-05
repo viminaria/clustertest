@@ -36,6 +36,10 @@ spec:
     values:
       cni:
         exclusive: false
+      l2announcements:
+        enabled: false
+      socketLB:
+        hostNamespaceOnly: true
       autoDirectNodeRoutes: true
       routingMode: native
       bpf:
