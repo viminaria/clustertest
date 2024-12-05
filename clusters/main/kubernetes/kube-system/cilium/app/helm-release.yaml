@@ -36,6 +36,8 @@ spec:
     values:
       # autoDirectNodeRoutes: true
       routingMode: native
+      bpf:
+        masquerade: false
       hubble:
         enabled: false
       cluster:
