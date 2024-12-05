@@ -30,32 +30,41 @@ spec:
   values:
     securityContext:
       container:
+        PUID: 0
+        UMASK: '0022'
+        advanced: false
         capabilities:
           add:
             - NET_ADMIN
             - NET_RAW
-    ingress:
-      main:
-        enabled: true
-        hosts:
-          - host: "wg.${DOMAIN_0}"
-            paths:
-              - overrideService:
-                  name: "main"
-                  port: 51821
-                path: "/"
-                pathType: "Prefix"
-        integrations:
-          certManager:
-            certificateIssuer: "domain-0-le-prod"
-            enabled: true
-        tls:
-          - hosts:
-              - "wg.${DOMAIN_0}"
+            - SYS_MODULE
+        runAsGroup: 0
+        runAsNonRoot: false
+        runAsUser: 0
+        privileged: true
+    # ingress:
+    #   main:
+    #     enabled: true
+    #     hosts:
+    #       - host: "wg.${DOMAIN_0}"
+    #         paths:
+    #           - overrideService:
+    #               name: "main"
+    #               port: 51821
+    #             path: "/"
+    #             pathType: "Prefix"
+    #     integrations:
+    #       certManager:
+    #         certificateIssuer: "domain-0-le-prod"
+    #         enabled: true
+    #     tls:
+    #       - hosts:
+    #           - "wg.${DOMAIN_0}"
     service:
       vpn:
         type: LoadBalancer
         loadBalancerIP: ${WG_EASY_IP}
+        externalTrafficPolicy: Local
         ports:
           vpn:
             port: 1194
@@ -81,10 +90,9 @@ spec:
                 WG_HOST: "${DDNS_URL}"
                 WG_DEFAULT_DNS: "${BLOCKY_IP}"
                 WG_PORT: "1194"
-                #POST_UP: 'iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; iptables -t nat -A POSTROUTING -o %i -j MASQUERADE; iptables -A INPUT -i eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT; iptables -A INPUT -i %i -m state --state RELATED,ESTABLISHED -j ACCEPT; iptables -A FORWARD -j ACCEPT'
-                #POST_DOWN: 'iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; iptables -t nat -D POSTROUTING -o %i -j MASQUERADE; iptables -A INPUT -i eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT; iptables -D INPUT -i %i -m state --state RELATED,ESTABLISHED -j ACCEPT; iptables -D FORWARD -j ACCEPT'
+                WG_MTU: 1350
                 # PASSWORD_HASH uses bcrypt. You can create a hash at https://bcrypt.online/
                 PASSWORD_HASH: "$2y$10$LEKfuEubLBZi5tGNJSTv0.KfyOwZeYzjM65yZeklo.VM/eE44yrAK"
                 WG_ALLOWED_IPS: "0.0.0.0/0"
                 LANG: "en"
-                UI_TRAFFIC_STATS: "false"
+                UI_TRAFFIC_STATS: "true"

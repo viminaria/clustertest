@@ -34,8 +34,8 @@ spec:
     uninstall:
         keepHistory: false
     values:
-      cni:
-        exclusive: false
+      # cni:
+      #   exclusive: false
       l2announcements:
         enabled: false
       socketLB:
