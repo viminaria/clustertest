@@ -34,6 +34,8 @@ spec:
     uninstall:
         keepHistory: false
     values:
+      cni:
+        exclusive: false
       autoDirectNodeRoutes: true
       routingMode: native
       bpf:
