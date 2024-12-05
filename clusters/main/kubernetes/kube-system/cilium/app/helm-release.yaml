@@ -34,7 +34,7 @@ spec:
     uninstall:
         keepHistory: false
     values:
-      # autoDirectNodeRoutes: true
+      autoDirectNodeRoutes: true
       routingMode: native
       bpf:
         masquerade: false
