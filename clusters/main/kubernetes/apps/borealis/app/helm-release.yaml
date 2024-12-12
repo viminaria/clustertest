@@ -1,0 +1,71 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+    name: borealis
+    namespace: borealis
+spec:
+    interval: 15m
+    chart:
+        spec:
+            chart: external-service
+            version: 15.2.2
+            sourceRef:
+                kind: HelmRepository
+                name: truecharts
+                namespace: flux-system
+            interval: 15m
+    timeout: 20m
+    maxHistory: 3
+    driftDetection:
+        mode: warn
+    install:
+        createNamespace: true
+        remediation:
+            retries: 3
+    upgrade:
+        cleanupOnFail: true
+        remediation:
+            retries: 3
+    uninstall:
+        keepHistory: false
+    values:
+        ingress:
+            main:
+                annotations:
+                    traefik.frontend.passHostHeader: "false"
+                enabled: true
+                hosts:
+                    - host: borealis.${DOMAIN_0}
+                      paths:
+                        - path: /
+                          pathType: Prefix
+                ingressClassName: ""
+                integrations:
+                    certManager:
+                        certificateIssuer: domain-0-le-prod
+                        enabled: true
+                    homepage: false
+                    traefik:
+                        allowCors: false
+                        enabled: true
+                        entrypoints:
+                            - websecure
+        release_name: borealis
+        service:
+            main:
+                enabled: true
+                externalIP: ${BOREALIS_IP}
+                ports:
+                    main:
+                        enabled: true
+                        port: 80
+                        protocol: http
+                type: ExternalIP
+                useSlice: false
+        workload:
+            main:
+                enabled: false
+                podSpec:
+                    containers:
+                        main: {}
+
